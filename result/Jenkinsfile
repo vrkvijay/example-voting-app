@@ -1,0 +1,35 @@
+pipeline {
+ agent any
+ tools{
+ nodejs 'NodeJS 8.9.0'
+ }
+ stages{
+ stage("build"){
+ when{
+ changeset "**/result/**"
+ }
+ steps{
+ echo 'Compiling worker app..'
+ dir('worker'){
+ sh 'npm install'
+ }
+ }
+ }
+ stage("test"){
+ when{
+ changeset "**/worker/**"
+ }
+ steps{
+ echo 'Running Unit Tets on worker app..'
+ dir('worker'){
+ sh 'npm install && npm test'
+ }
+ }
+ }
+ }
+ post{
+ always{
+ echo 'Building multibranch pipeline for worker is completed..'
+ }
+ }
+}
