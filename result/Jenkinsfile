@@ -10,18 +10,18 @@ pipeline {
  }
  steps{
  echo 'Compiling worker app..'
- dir('worker'){
+ dir('result'){
  sh 'npm install'
  }
  }
  }
  stage("test"){
  when{
- changeset "**/worker/**"
+ changeset "**/result/**"
  }
  steps{
  echo 'Running Unit Tets on worker app..'
- dir('worker'){
+ dir('result'){
  sh 'npm install && npm test'
  }
  }
